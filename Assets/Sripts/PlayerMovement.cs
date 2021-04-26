@@ -3,14 +3,21 @@
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody playerRigidbody;
+
+    [SerializeField]
+    Transform Camera;
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
-    private Transform Camera;
+    private float rotationSpeed = 90f;
     [SerializeField]
-    private float turnSmoothTime = 0.1f;
+    private float jumpHeight = 2f;
 
-    float turnSmoothVelocity;
+
+    private float inputX;
+    private float inputZ;
+    private bool jumpAvailability;
+    private float targetRotation;
 
     void Start()
     {
@@ -18,30 +25,39 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    
-    void Update()
+    private void Update()
     {
-        
+        inputX = Input.GetAxis("Horizontal");
+        inputZ = Input.GetAxis("Vertical");
     }
 
     void FixedUpdate()
     {
-        Vector3 movementDirection = new Vector3 (Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized; 
-
-        if (movementDirection.magnitude >= 0.1f)
+        Vector3 movementDirection = new Vector3(inputX, 0f, inputZ);
+        if (movementDirection.magnitude > 0.1f)
         {
-            float targetAngle = Mathf.Atan2(movementDirection.x, movementDirection.z) * Mathf.Rad2Deg + Camera.eulerAngles.y;
-            float actualAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, actualAngle, 0f);
-
-            Vector3 direction = Quaternion.Euler(0f, actualAngle, 0f) * Vector3.forward;
-            // Debug.Log(direction.normalized + "hey");
-           // playerRigidbody.AddForce(Vector3.forward, ForceMode.VelocityChange);
-         //   playerRigidbody.AddForce(direction.normalized * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
-            playerRigidbody.velocity = direction.normalized * speed * Time.fixedDeltaTime;
-            Debug.Log(playerRigidbody.velocity);
+            targetRotation = Mathf.Atan2(movementDirection.x, movementDirection.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, targetRotation, 0f) * Quaternion.Euler(0f, Camera.eulerAngles.y, 0f);
+            transform.position += Quaternion.Euler(0f, Camera.eulerAngles.y, 0f) * movementDirection * speed * Time.fixedDeltaTime;
         }
 
-        playerRigidbody.velocity = new Vector3(0f, playerRigidbody.velocity.y, 0f); 
+        Jump();
     }
+
+    void Jump()
+    {
+        int Layer = LayerMask.GetMask("Floor");
+        RaycastHit hit;
+        jumpAvailability = Physics.SphereCast(transform.position - Vector3.up + Vector3.up * 0.55f, 0.5f, Vector3.down, out hit, 0.5f, Layer);
+
+        if (jumpAvailability)
+            if (Input.GetKeyDown("space") || Input.GetKey("space"))
+            {
+                Debug.Log(1);
+                playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
+                playerRigidbody.AddForce(Vector3.up * (float)Mathf.Sqrt(jumpHeight * (2 * 9.81f)), ForceMode.VelocityChange);
+            }
+    }
+
+
 }
