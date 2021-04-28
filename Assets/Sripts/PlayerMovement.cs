@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+      
         playerRigidbody = GetComponent<Rigidbody>();
 
     }
