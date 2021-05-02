@@ -10,16 +10,18 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float yOffset = 7f;
     [SerializeField]
-    private float zOffset = -10;
+    private float zOffset = -10f;
     [SerializeField]
-    private float rotationSpeed = 1;
-    private Vector3 beforeCheckTransform;
-    private Quaternion baseRotation = Quaternion.Euler(20f, 0f, 0f);
+    private float rotationSpeed = 1f;
+    [SerializeField]
+    private float baseXRotation = 20f;
+    private Quaternion baseRotation;
     private Vector3 offsetPosition;
 
     private void Start()
     {
-        
+        baseRotation = Quaternion.Euler(baseXRotation, 0f, 0f);
+
         offsetPosition = new Vector3(0f, yOffset, zOffset);
         transform.position = player.transform.position + offsetPosition;
         transform.rotation = baseRotation;

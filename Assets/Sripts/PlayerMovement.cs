@@ -9,9 +9,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
-    private float rotationSpeed = 90f;
+    private float rotationSpeed = 150f;
     [SerializeField]
     private float jumpHeight = 2f;
+    [SerializeField]
+    private float fallMultiplier = 3.5f;
+    [SerializeField]
+    private float lowJumpMultiplier = 2f;
 
 
     private float inputX;
@@ -38,11 +42,12 @@ public class PlayerMovement : MonoBehaviour
         if (movementDirection.magnitude > 0.1f)
         {
             targetRotation = Mathf.Atan2(movementDirection.x, movementDirection.z) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, targetRotation, 0f) * Quaternion.Euler(0f, Camera.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, targetRotation, 0f) * Quaternion.Euler(0f, Camera.eulerAngles.y, 0f), rotationSpeed * Time.fixedDeltaTime);
             transform.position += Quaternion.Euler(0f, Camera.eulerAngles.y, 0f) * movementDirection * speed * Time.fixedDeltaTime;
         }
 
         Jump();
+        JumpTweaking();
     }
 
     void Jump()
@@ -58,6 +63,18 @@ public class PlayerMovement : MonoBehaviour
                 playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
                 playerRigidbody.AddForce(Vector3.up * (float)Mathf.Sqrt(jumpHeight * (2 * 9.81f)), ForceMode.VelocityChange);
             }
+    }
+
+    void JumpTweaking()
+    {
+        if (playerRigidbody.velocity.y < 0f)
+        {
+            playerRigidbody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1f) * Time.fixedDeltaTime;
+        }
+        else if (playerRigidbody.velocity.y > 0f && !Input.GetKey("space"))
+        {
+            playerRigidbody.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1f) * Time.fixedDeltaTime;
+        }
     }
 
 
