@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
         if (jumpAvailability)
             if (Input.GetKeyDown("space") || Input.GetKey("space"))
             {
-                Debug.Log(1);
                 playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
                 playerRigidbody.AddForce(Vector3.up * (float)Mathf.Sqrt(jumpHeight * (2 * 9.81f)), ForceMode.VelocityChange);
             }

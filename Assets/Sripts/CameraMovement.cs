@@ -8,13 +8,13 @@ public class CameraMovement : MonoBehaviour
 
     // private Quaternion cameraRotation = PlayerMovement.targetRotation;
     [SerializeField]
-    private float yOffset = 7f;
+    private float yOffset = 3f;
     [SerializeField]
-    private float zOffset = -10f;
+    private float zOffset = -6f;
     [SerializeField]
     private float rotationSpeed = 1f;
     [SerializeField]
-    private float baseXRotation = 20f;
+    private float baseXRotation = 15f;
     private Quaternion baseRotation;
     private Vector3 offsetPosition;
 
