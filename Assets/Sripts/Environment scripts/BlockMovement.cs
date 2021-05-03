@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RepeatableBlockMovement : MonoBehaviour
+public class BlockMovement : MonoBehaviour
 {
     [SerializeField]
     private Vector3 firstPointOfWay;
@@ -10,6 +10,9 @@ public class RepeatableBlockMovement : MonoBehaviour
 
     [SerializeField]
     private float speed = 1f;
+
+    [SerializeField]
+    private bool repeatable = true;
 
     private Vector3 vectorToFirstPoint;
     private Vector3 vectorToSecondPoint;
@@ -34,6 +37,9 @@ public class RepeatableBlockMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (direction == -1 && repeatable == false)
+            direction = 0;
+        
         transform.position += direction * wayVector * speed * Time.fixedDeltaTime;
         CheckPoints();
     }

@@ -142,6 +142,7 @@ MonoBehaviour:
   firstPointOfWay: {x: 10, y: 2, z: 0}
   secondPointOfWay: {x: 0, y: 2, z: 0}
   speed: 0.1
+  repeatable: 0
 --- !u!1 &102566093
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,6 +587,26 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 963194228}
+    - target: {fileID: 2415535986430180412, guid: d7a328bc187e533438d66deb27cc7396,
+        type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415535986430180412, guid: d7a328bc187e533438d66deb27cc7396,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415535986430180412, guid: d7a328bc187e533438d66deb27cc7396,
+        type: 3}
+      propertyPath: fallMultiplier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415535986430180412, guid: d7a328bc187e533438d66deb27cc7396,
+        type: 3}
+      propertyPath: lowJumpMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2415535986430180413, guid: d7a328bc187e533438d66deb27cc7396,
         type: 3}
       propertyPath: m_Name
