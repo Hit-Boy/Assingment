@@ -6,6 +6,7 @@ TagManager:
   tags:
   - 1st World
   - 2nd World
+  - Moving
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - 
   - Floor
-  - 
+  - Player
   - 
   - 
   - 

@@ -4,7 +4,6 @@ public class MovingWithPlatform : MonoBehaviour
 {
     RaycastHit bottomnHit;
     Vector3 ordinaryScale;
-    Vector3 inversedScale;
     
     private void Start()
     {
@@ -15,11 +14,9 @@ public class MovingWithPlatform : MonoBehaviour
         int Layer = LayerMask.GetMask("Floor");
 
 
-        if (Physics.SphereCast(transform.position - Vector3.up + Vector3.up * 0.55f, 0.5f, Vector3.down, out bottomnHit, 0.5f, Layer))
+        if (Physics.SphereCast(transform.position - Vector3.up + Vector3.up * 0.55f, 0.5f, Vector3.down, out bottomnHit, 0.5f, Layer) && bottomnHit.transform.gameObject.CompareTag("Moving"))
         {
-            GameObject platform = bottomnHit.transform.gameObject;
-            inversedScale = new Vector3(1/platform.transform.localScale.x, 1/platform.transform.localScale.y, 1/transform.localScale.z);
-            
+            GameObject platform = bottomnHit.transform.gameObject; 
             Transform emptyObject = platform.transform.Find("GameObject");
             transform.SetParent(emptyObject);
            // transform.localScale = ordinaryScale;
